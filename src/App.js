@@ -4,7 +4,7 @@ import Contacts from './components/Contacts';
 
 import {Provider} from './context';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
 class App extends Component {
