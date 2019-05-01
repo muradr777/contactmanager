@@ -1,18 +1,35 @@
 import React, {Component} from 'react';
 import { Consumer } from '../../context';
+import TextInputGroup from '../layout/TextInputGroup';
 import uuid from 'uuid';
 
 class AddContact extends Component {
     state = {
-        name: 'John',
-        email: 'johndoe@gmail.com',
-        phone: '112-213-12312'
+        name: '',
+        email: '',
+        phone: '',
+        errors: {}
     };
 
     onSubmit = (dispatch, e) => {
         e.preventDefault();
 
         const { name, email, phone } = this.state;
+
+        if(name === '') {
+            this.setState({ errors: { name: 'Name is required'}});
+            return;
+        }
+
+        if(email === '') {
+            this.setState({ errors: { email: 'Email is required'}});
+            return;
+        }
+
+        if(phone === '') {
+            this.setState({ errors: { phone: 'Phone is required'}});
+            return;
+        }
 
         const newContact = {
             id: uuid(),
@@ -26,14 +43,15 @@ class AddContact extends Component {
         this.setState({
             name: '',
             email: '',
-            phone: ''
+            phone: '',
+            errors: {}
         })
     };
 
     onChange = e => this.setState({[e.target.name]: e.target.value});
 
     render() {
-        const { name, email, phone } = this.state;
+        const { name, email, phone, errors } = this.state;
 
         return (
             <Consumer>
@@ -47,33 +65,31 @@ class AddContact extends Component {
                             </div>
                             <div className="card-body">
                                 <form onSubmit={this.onSubmit.bind(this, dispatch)}>
-                                    <div className="form-group">
-                                        <label htmlFor="name">Name</label>
-                                        <input type="text"
-                                               name="name"
-                                               value={name}
-                                               onChange={this.onChange}
-                                               className="form-control form-control-lg"
-                                               placeholder="Enter Name..."/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="email">Email</label>
-                                        <input type="email"
-                                               name="email"
-                                               value={email}
-                                               onChange={this.onChange}
-                                               className="form-control form-control-lg"
-                                               placeholder="Enter Email..."/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="name">Phone</label>
-                                        <input type="text"
-                                               name="phone"
-                                               value={phone}
-                                               onChange={this.onChange}
-                                               className="form-control form-control-lg"
-                                               placeholder="Enter Phone..."/>
-                                    </div>
+                                    <TextInputGroup
+                                        label="Name"
+                                        name="name"
+                                        placeholder="Enter Name..."
+                                        value={name}
+                                        onChange={this.onChange}
+                                        error={errors.name}
+                                    />
+                                    <TextInputGroup
+                                        label="Email"
+                                        name="email"
+                                        type="email"
+                                        placeholder="Enter Email..."
+                                        value={email}
+                                        onChange={this.onChange}
+                                        error={errors.email}
+                                    />
+                                    <TextInputGroup
+                                        label="Phone"
+                                        name="phone"
+                                        placeholder="Enter Phone..."
+                                        value={phone}
+                                        onChange={this.onChange}
+                                        error={errors.phone}
+                                    />
                                     <input type="submit" value="Add Contact" className="btn btn-light btn-block"/>
                                 </form>
                             </div>
