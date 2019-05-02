@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Consumer } from "../../context";
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 class Contact extends Component {
     state = {
@@ -32,6 +33,15 @@ class Contact extends Component {
                             <h4>{name} {' '}
                                 <i onClick={() => this.setState({showContactInfo: !this.state.showContactInfo})} className={arrowToggle} style={{cursor: 'pointer'}}/>
                                 <i onClick={this.onDeleteClick.bind(this, id, dispatch)} className="fa fa-times" style={{float: 'right', color: 'red', cursor: 'pointer'}}/>
+                                <Link to={`contact/edit/${id}`}>
+                                    <i  className="fa fa-pencil"
+                                        style={{
+                                            float: 'right',
+                                            color: 'black',
+                                            cursor: 'pointer',
+                                            marginRight: '1rem'
+                                        }}/>
+                                </Link>
                             </h4>
                             {
                                 showContactInfo ?
